@@ -56,6 +56,33 @@
         </div>
       {% endfor %}
     </article>
+    <footer style="justify-content: center; display: flex;">
+      <ul class="pagination">
+        {% if page_obj.has_pervious %}
+        <li class="page-item">
+          <a href="?page=1" class="page-link">first</a>
+          <a href="?page={{ page_obj.pervious_page_number }}" class="page-link">&laquo;</a>
+        </li>
+          {% endif %}
+        {% for num in page_obj.paginator.page_range %}
+          {% if page_obj.number == num%}
+            <li class="page-item">
+              <a href="?page={{num}}" class="page-link">{{num}}</a>
+            </li>
+          {% else %}
+            <li class="page-item">
+              <a href="?page={{num}}" class="page-link">{{num}}</a>
+            </li>
+          {% endif %}
+        {% endfor %}
+        {% if page_obj.has_next %}
+            <li class="page-item">
+              <a href="?page={{ page_obj.next_page_number }}" class="page-link">&raquo;</a>
+              <a href="?page={{ page_obj.paginator.num_pages }}" class="page-link">last</a>
+            </li>
+        {% endif %}
+      </ul>
+    </footer>
   </main>
 
 {% endblock %}
