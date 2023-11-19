@@ -16,6 +16,64 @@
           <h3 class="title">{{ item.title }}</h3>
           <p class="content">{{ item.body }}</p>
         </div>
+        <div>
+          {% for comment in comments %}
+            <div>{{comment}}</div>
+          {% endfor%}
+        </div>
     </article>
+    <div>
+      <form id="commentForm" >
+        {% csrf_token %}
+        <label for="comment">Comment</label>
+        <textarea name="comment" id="id_comment" cols="30" rows="10"></textarea>
+        <button type="submit">Submit</button>
+      </form>
+    </div>
 </main>
+{% endblock %}
+
+{% block script %}
+  {% if user.is_authenticated %}
+  <script type="text/javascript">
+
+    const form = document.getElementById('commentForm');
+    const comment = document.getElementById('id_comment');
+    const csrf = document.getElementsByName('csrfmiddlewaretoken');
+
+    const user_id = parseInt("{{user.id}}");
+    const post_id = parseInt("{{item.id}}");
+    const URL = "{% url 'comment.new' %}";
+
+    function handleSubmit(event) {
+      //prevent from submit form
+      event.preventDefault();
+      event.stopPropagation();
+      
+      const data = {}
+      data['csrfmiddlewaretoken'] = csrf[0].value;
+      data['comment'] = comment.value;
+      data['author'] = user_id;
+      data['post'] = post_id;
+
+      // Send Form Data
+
+      sendData(URL, data);
+    }
+
+    function sendData(url, data) {
+      $.ajax({
+        type: 'POST',
+        url: url,
+        data: data,
+        success: function (res) {
+          console.log(res);
+        }
+      })
+    }
+
+    form.addEventListener('submit', handleSubmit);
+
+  </script>
+  {% endif %}
 {% endblock %}
