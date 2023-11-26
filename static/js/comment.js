@@ -1,32 +1,23 @@
-
 const form = document.getElementById('commentForm');
 const comment = document.getElementById('id_comment');
 const csrf = document.getElementsByName('csrfmiddlewaretoken');
-let user_id;
-let post_id;
-let URL;
 
-function loadData(user, post, url) {
-    user_id = parseInt(user);
-    post_id = parseInt(post);
-    url = url;
-}
+// form.addEventListener('submit', handleSubmit);
 
-function handleSubmit(event) {
+function handleSubmit(user, post, url) {
     //prevent from submit form
-    event.preventDefault();
+    // event.preventDefault();
     // event.stopPropagation();
-
+    const URL = url;
     const data = {}
     data['csrfmiddlewaretoken'] = csrf[0].value;
     data['comment'] = comment.value;
-    data['author'] = user_id;
-    data['post'] = post_id;
+    data['author'] = user;
+    data['post'] = post;
 
     // Send Form Data
-
-    // sendData(URL, data);
-    console.log(data);
+    console.log('handleSubmit', URL);
+    sendData(URL, data);
 }
 
 function sendData(url, data) {
@@ -36,8 +27,8 @@ function sendData(url, data) {
         data: data,
         success: function (res) {
         console.log(res);
+        window.location.reload();
         }
     })
-}
 
-form.addEventListener('submit', handleSubmit);
+}
