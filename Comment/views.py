@@ -1,4 +1,4 @@
-from django.views.generic import ListView, UpdateView, DeleteView, CreateView
+from django.views.generic import ListView, CreateView
 from .models import CommentModel
 from django.contrib.auth.models import User
 from Blog.models import Blog
