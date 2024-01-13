@@ -1,4 +1,4 @@
-from django.views.generic import ListView, CreateView
+from django.views.generic import CreateView
 from .models import CommentModel
 from django.contrib.auth.models import User
 from Blog.models import Blog
@@ -18,7 +18,7 @@ class NewComment(CreateView):
         self.model.objects.create(author = user, post = post, comment = comment)
         return JsonResponse({'success': True })
     
-class CommentList(ListView):
-    template_name = 'commentlist.html'
-    model = CommentModel
-    context_object_name = 'comments'
+# class CommentList(DetailView):
+#     template_name = 'commentlist.html'
+#     model = CommentModel
+#     context_object_name = 'comments'
