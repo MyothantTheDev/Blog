@@ -1,7 +1,6 @@
 from django.urls import path, include
-from .views import AddFollowerView, GetFollowerView
+from .views import AddFollowerView
 
 urlpatterns = [
     path('follow/', AddFollowerView.as_view(), name="user.addfollower"),
-    path('following/', AddFollowerView.as_view(), name="user.getfollower"),
 ]
