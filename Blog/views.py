@@ -1,7 +1,9 @@
+from typing import Any
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import ListView, View, DetailView, UpdateView, DeleteView
 from .models import Blog
+from Comment.models import CommentModel
 from .forms import BlogCreateForm
 
 
@@ -43,6 +45,11 @@ class BlogDetailView(DetailView):
     template_name = "detailBlog.html"
     model = Blog
     context_object_name = 'item'
+
+    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        context["comments"] = CommentModel.objects.filter(post=kwargs['object'].id)
+        return context
 
 class BlogDeleteView(DeleteView):
     model = Blog
