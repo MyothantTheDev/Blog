@@ -19,13 +19,13 @@
         </div>
         <div>
           {% for comment in comments %}
-            <div>{{comment}}</div>
+            <div>{{comment.comment}}</div>
           {% endfor%}
         </div>
     </article>
-    <div id="comment-section">
+    <!-- <div id="comment-section">
       <iframe src="/blog/comment/commentlist" frameborder="0"></iframe>
-    </div>
+    </div> -->
     <div>
       <form id="commentForm">
         {% csrf_token %}

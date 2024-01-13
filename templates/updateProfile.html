@@ -9,6 +9,9 @@
           <div class="card" style="width: 18rem;">
             <img src="{{ profile.image.url }}" class="card-img-top" alt="...">
             <input type="file" name="image" accept="image/*">
+            <div>
+              {{followers|length}}
+            </div>
             <div class="card-body">
               <input type="text" name="username" value="{{ user.username }}">
               <input type="email" name="email" value="{{user.email }}">
@@ -19,13 +22,22 @@
         {% else %}
         <div class="card" style="width: 18rem;">
           <img src="{{ profile.image.url }}" class="card-img-top" alt="...">
+          <div>
+            {{followers|length}}
+          </div>
           <div class="card-body">
             <input type="text" name="username" value="{{ profile.user.username }}" disabled>
             <input type="email" name="email" value="{{ profile.user.email }}" disabled>
           </div>
           <form>
             {% csrf_token %}
-            <button onclick="handleSubmit('{{profile.user.id}}','{{user.id}}',`{% url 'user.addfollower' %}`)">Follow</button>
+            {% for follower in followers %}
+            {% if follower.following_user_id.id == user.id %}
+              <button type="button" onclick="handleSubmit('{{profile.user.id}}','{{user.id}}',`{% url 'user.addfollower' %}`)">Unfollow</button>
+            {% else %}
+              <button type="button" onclick="handleSubmit('{{profile.user.id}}','{{user.id}}',`{% url 'user.addfollower' %}`)">Follow</button>
+            {% endif %}
+            {% endfor %}
           </form>
           <!-- <a href="{% url 'user.addfollower' %}">Follow</a> -->
         </div>
