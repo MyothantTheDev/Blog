@@ -55,7 +55,8 @@ class ProfileView(UpdateView, LoginRequiredMixin):
 
     def get(self, request, *args, **kwargs):
         profile = self.model.objects.get(pk = kwargs["pk"])
-        context = {'profile' : profile}
+        follower = profile.user.following.all()
+        context = {'profile' : profile, "followers": list(follower)}
         return render(request, self.template_name, context)
     
     def post(self, request, *args, **kwargs):
